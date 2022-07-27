@@ -24,7 +24,7 @@ void main() {
     await tester.tap(find.byType(Scaffold));
     await tester.pump();
 
-    // Verify that the color has changed.
+    // Verify that the colors have changed.
     expect(
       (tester.firstWidget(find.byType(Scaffold)) as Scaffold).backgroundColor,
       isNot(Colors.white),
