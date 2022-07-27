@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:solid_test/main.dart';
+import 'package:solid_test/color_app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Color changing test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const ColorApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that our text is present.
+    expect(find.text('Hey there'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify that our colors the starting colors
+    expect(
+      (tester.firstWidget(find.byType(Scaffold)) as Scaffold).backgroundColor,
+      Colors.white,
+    );
+    expect(
+      ((tester.firstWidget(find.text('Hey there')) as Text).style)?.color,
+      Colors.black,
+    );
+
+    // Tap the screen and trigger a frame.
+    await tester.tap(find.byType(Scaffold));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the color has changed.
+    expect(
+      (tester.firstWidget(find.byType(Scaffold)) as Scaffold).backgroundColor,
+      isNot(Colors.white),
+    );
+    expect(
+      ((tester.firstWidget(find.text('Hey there')) as Text).style)?.color,
+      isNot(Colors.black),
+    );
   });
 }
